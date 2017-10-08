@@ -1,0 +1,54 @@
+BEGIN;
+--
+-- Create model Event
+--
+CREATE TABLE "general_event" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(500) NOT NULL, "datetime" datetime NOT NULL);
+--
+-- Create model Movie
+--
+CREATE TABLE "general_movie" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "genre" varchar(100) NOT NULL, "cost" real NOT NULL, "length" integer NOT NULL, "rating" integer NOT NULL, "cast_list" varchar(1000) NOT NULL, "datetime" datetime NOT NULL, "movie_poster" varchar(500) NOT NULL);
+--
+-- Create model Theatre
+--
+CREATE TABLE "general_theatre" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(500) NOT NULL, "location" varchar(500) NOT NULL);
+CREATE TABLE "general_theatre_movies" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "theatre_id" integer NOT NULL REFERENCES "general_theatre" ("id"), "movie_id" integer NOT NULL REFERENCES "general_movie" ("id"));
+--
+-- Create model User
+--
+CREATE TABLE "general_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "username" varchar(20) NOT NULL, "name" varchar(100) NOT NULL, "age" integer NOT NULL);
+CREATE TABLE "general_user_favourite_movies" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "general_user" ("id"), "movie_id" integer NOT NULL REFERENCES "general_movie" ("id"));
+CREATE TABLE "general_user_movie_wishlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "general_user" ("id"), "movie_id" integer NOT NULL REFERENCES "general_movie" ("id"));
+--
+-- Add field movie to event
+--
+ALTER TABLE "general_event" RENAME TO "general_event__old";
+CREATE TABLE "general_event" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(500) NOT NULL, "datetime" datetime NOT NULL, "movie_id" integer NOT NULL REFERENCES "general_movie" ("id"));
+INSERT INTO "general_event" ("name", "datetime", "id", "movie_id") SELECT "name", "datetime", "id", NULL FROM "general_event__old";
+DROP TABLE "general_event__old";
+CREATE UNIQUE INDEX "general_theatre_movies_theatre_id_movie_id_710dfd9a_uniq" ON "general_theatre_movies" ("theatre_id", "movie_id");
+CREATE INDEX "general_theatre_movies_theatre_id_c3ba8779" ON "general_theatre_movies" ("theatre_id");
+CREATE INDEX "general_theatre_movies_movie_id_e8198773" ON "general_theatre_movies" ("movie_id");
+CREATE UNIQUE INDEX "general_user_favourite_movies_user_id_movie_id_25cb8ee1_uniq" ON "general_user_favourite_movies" ("user_id", "movie_id");
+CREATE INDEX "general_user_favourite_movies_user_id_d1348a17" ON "general_user_favourite_movies" ("user_id");
+CREATE INDEX "general_user_favourite_movies_movie_id_bbe97c8b" ON "general_user_favourite_movies" ("movie_id");
+CREATE UNIQUE INDEX "general_user_movie_wishlist_user_id_movie_id_d94e568c_uniq" ON "general_user_movie_wishlist" ("user_id", "movie_id");
+CREATE INDEX "general_user_movie_wishlist_user_id_b26eafbd" ON "general_user_movie_wishlist" ("user_id");
+CREATE INDEX "general_user_movie_wishlist_movie_id_72cae9ff" ON "general_user_movie_wishlist" ("movie_id");
+CREATE INDEX "general_event_movie_id_f47ec73c" ON "general_event" ("movie_id");
+--
+-- Add field theatre to event
+--
+ALTER TABLE "general_event" RENAME TO "general_event__old";
+CREATE TABLE "general_event" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(500) NOT NULL, "datetime" datetime NOT NULL, "movie_id" integer NOT NULL REFERENCES "general_movie" ("id"), "theatre_id" integer NOT NULL REFERENCES "general_theatre" ("id"));
+INSERT INTO "general_event" ("name", "datetime", "id", "theatre_id", "movie_id") SELECT "name", "datetime", "id", NULL, "movie_id" FROM "general_event__old";
+DROP TABLE "general_event__old";
+CREATE INDEX "general_event_movie_id_f47ec73c" ON "general_event" ("movie_id");
+CREATE INDEX "general_event_theatre_id_10a2abd9" ON "general_event" ("theatre_id");
+--
+-- Add field users to event
+--
+CREATE TABLE "general_event_users" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "event_id" integer NOT NULL REFERENCES "general_event" ("id"), "user_id" integer NOT NULL REFERENCES "general_user" ("id"));
+CREATE UNIQUE INDEX "general_event_users_event_id_user_id_6d1548e7_uniq" ON "general_event_users" ("event_id", "user_id");
+CREATE INDEX "general_event_users_event_id_e6797955" ON "general_event_users" ("event_id");
+CREATE INDEX "general_event_users_user_id_c066930c" ON "general_event_users" ("user_id");
+COMMIT;
