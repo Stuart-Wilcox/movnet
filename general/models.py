@@ -21,8 +21,8 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
-    favourite_movies = models.ManyToManyField(Movie, related_name='favourite_movies', null=True)
-    movie_wishlist = models.ManyToManyField(Movie, related_name='movie_wishlist', null=True)
+    favourite_movies = models.ManyToManyField(Movie, related_name='favourite_movies')
+    movie_wishlist = models.ManyToManyField(Movie, related_name='movie_wishlist')
 
     def add_favourite(self, movie):
         self.favourite_movies.add(movie)

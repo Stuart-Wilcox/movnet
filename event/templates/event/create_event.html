@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Event</title>
+</head>
+<body>
+    <h1>Create Event</h1>
+    <form action="/event/do_create" method="post">
+        {% csrf_token %}
+        <label for="name">Event Name</label>
+        <input type="text" id="name" name="name" />
+        <br />
+        <br />
+        <label for="theatre">Theatre Name</label>
+        <select name="theatre" id="theatre">
+            {% for theatre in theatres %}
+                <option value="{{ theatre.pk }}">
+                    {{ theatre.name }} : {{ theatre.location }}
+                </option>
+            {% endfor %}
+        </select>
+        <br />
+        <br />
+        <label for="movie">Movie</label>
+        <select id="movie" name="movie">
+            {% for movie in movies %}
+                <option value="{{ movie.pk }}">
+                    {{ movie.name }} : {{ movie.datetime }}
+                </option>
+            {% endfor %}
+        </select>
+        <br />
+        <br />
+        <label for="users">People Attending</label>
+        <textarea name="users" id="users" rows="10" cols="50">Enter usersnames here, comma-separated
+        </textarea>
+        <br />
+        <br />
+        <button type="submit" role="button">Create</button>
+    </form>
+</body>
+</html>

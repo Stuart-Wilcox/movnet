@@ -5,12 +5,17 @@
     <title>Login</title>
 </head>
 <body>
+    <h1>Login</h1>
     <form role="form" action="/login/dologin" method="post">
         {% csrf_token %}
         <label for="username">Username</label>
         <input id="username" type="text" name="username" />
+        <br />
+        <br />
         <label for="password">Password</label>
         <input id="password" type="password" name="password" />
+        <br />
+        <br />
         <button type="submit" role="button">Login</button>
     </form>
 </body>

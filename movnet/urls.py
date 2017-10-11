@@ -18,7 +18,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', include('general.urls')),
+    url(r'^denied/', include('general.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^login/', include('login.urls')),
+    url(r'^movie/', include('movie.urls')),
+    url(r'^theatre/', include('theatre.urls')),
+    url(r'^event/', include('event.urls')),
 ]

@@ -1,5 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import loader, HttpResponse
 
 
-def index(request):
-    return HttpResponse('Hello World!')
+def denied(request):
+    template = loader.get_template('general/access_denied.html')
+    context = {}
+    return HttpResponse(template.render(context, request))

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.name }}</title>
+</head>
+<body>
+    <h1>{{ event.name }}</h1>
+    <ul>
+        <li>
+            Datetime: {{ event.datetime }}
+        </li>
+        <li>
+            Theatre: <a href="/theatre/{{ event.theatre.pk }}">{{ event.theatre.name }}</a>
+        </li>
+        <li>
+            Movie: <a href="/movie/{{ event.movie.pk }}">{{ event.movie.name }}</a>
+        </li>
+    </ul>
+    <h3>People Attending</h3>
+    <ul>
+        {% for user in event.users.all %}
+            <li>
+                {{ user.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

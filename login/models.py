@@ -6,3 +6,6 @@ class Session(models.Model):
     client_token = models.CharField(max_length=150)
     max_age = models.IntegerField()
     creation_age = models.BigIntegerField()
+
+    def __str__(self):
+        return 'Session: %s' % self.username

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ theatre.name }}</title>
+</head>
+<body>
+    <h1>{{ theatre.name }}</h1>
+    <ul>
+        <li>Location: {{ theatre.location }}</li>
+        <li>
+            <ul>
+                {% for movie in theatre.movies.all %}
+                    <li>
+                        <a href="/movie/{{ movie.pk }}">{{ movie.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</body>
+</html>

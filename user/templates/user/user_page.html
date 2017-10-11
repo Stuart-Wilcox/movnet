@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}</title>
+</head>
+<body>
+    <h1>{{ user.username }}</h1>
+    <h2>{{ user.name }}, {{ user.age }}</h2>
+    <h3>Favoruite Movies</h3>
+    <ul>
+        {% for movie in user.favourite_movies.all %}
+            <li>
+                <a href="/movie/{{ movie.pk }}">{{ movie.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <br />
+    <h3>Movie Wishlist</h3>
+    <ul>
+        {% for movie in user.movie_wishlist.all %}
+            <li>
+                <a href="/movie/{{ movie.pk }}">{{ movie.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <form role="form" method="post" action="/login/dologout">
+        {% csrf_token %}
+        <button type="submit" role="button">Logout</button>
+    </form>
+</body>
+</html>
