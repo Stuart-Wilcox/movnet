@@ -8,7 +8,10 @@ def movie_list(request):
         return HttpResponseRedirect("/denied")
 
     template = loader.get_template('movie/movie_list.html')
-    context = {'movies': Movie.objects.all()}
+    context = {
+        'movies': Movie.objects.all(),
+        'title': 'Movies'
+    }
     return HttpResponse(template.render(context, request))
 
 
@@ -17,5 +20,8 @@ def movie_detail(request, index):
         return HttpResponseRedirect("/denied")
 
     template = loader.get_template('movie/movie_detail.html')
-    context = {'movie': Movie.objects.get(pk=index)}
+    context = {
+        'movie': Movie.objects.get(pk=index),
+        'title': Movie.objects.get(pk=index).name,
+    }
     return HttpResponse(template.render(context, request))

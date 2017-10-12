@@ -7,7 +7,8 @@ def user_profile(request):
     if auth(request):
         template = loader.get_template('user/user_page.html')
         context = {
-            'user': User.objects.filter(username=get_username(request))[0]
+            'user': User.objects.filter(username=get_username(request))[0],
+            'title': User.objects.filter(username=get_username(request))[0].name,
         }
         return HttpResponse(template.render(context, request))
     else:

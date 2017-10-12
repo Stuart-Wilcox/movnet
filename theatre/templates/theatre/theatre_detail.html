@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ theatre.name }}</title>
-</head>
-<body>
+{% extends 'general/base.html' %}
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>{{ theatre.name }}</title>-->
+<!--</head>-->
+<!--<body>-->
+{% block content %}
     <h1>{{ theatre.name }}</h1>
     <ul>
         <li>Location: {{ theatre.location }}</li>
@@ -18,5 +20,6 @@
             </ul>
         </li>
     </ul>
-</body>
-</html>
+{% endblock %}
+<!--</body>-->
+<!--</html>-->

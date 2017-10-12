@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Events</title>
-</head>
-<body>
+{% extends 'general/base.html' %}
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Events</title>-->
+<!--</head>-->
+<!--<body>-->
+{% block content %}
     <h1>Events</h1>
     <ul>
-        {% for event in events %}
+        {% if events|length != 0 %}
+            {% for event in events %}
+                <li>
+                    <a href="/event/{{ event.pk }}">{{ event.name }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
             <li>
-                <a href="/event/{{ event.pk }}">{{ event.name }}</a>
+                No events to display.
             </li>
-        {% endfor %}
+        {% endif %}
     </ul>
-</body>
-</html>
+<a href="/event/create">Create an event</a>
+{% endblock %}
+<!--</body>-->
+<!--</html>-->

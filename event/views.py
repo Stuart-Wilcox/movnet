@@ -9,7 +9,8 @@ def event_detail(request, index):
     event = Event.objects.get(pk=index)
     template = loader.get_template('event/event_detail.html')
     context = {
-        'event':event
+        'event': event,
+        'title': event.name,
     }
     return HttpResponse(template.render(context, request))
 
@@ -21,7 +22,8 @@ def event_list(request):
     events = Event.objects.filter(users__username=uname)
     template = loader.get_template('event/event_list.html')
     context = {
-        'events': events
+        'events': events,
+        'title': 'Events',
     }
     return HttpResponse(template.render(context, request))
 
@@ -33,6 +35,7 @@ def create_event(request):
     context = {
         'movies': Movie.objects.all(),
         'theatres': Theatre.objects.all(),
+        'title': 'Create Event',
     }
     return HttpResponse(template.render(context, request))
 
@@ -42,10 +45,21 @@ def do_create(request):
         return HttpResponseRedirect('/denied')
     event = Event()
     event.name = request.POST['name']
-    #event.datetime = request.POST['datetime']
     event.theatre = Theatre.objects.get(pk=request.POST['theatre'])
     event.movie = Movie.objects.get(pk=request.POST['movie'])
+    event.datetime = event.movie.datetime
     users = []
-    for username in request.POST['users'].split(','):
+    event.save()
+    for username in request.POST['users'].replace(' ', '').replace('\r', '').replace('\n', '').split(','):
         users.append(username)
+        event.add_user(User.objects.get(username=username))
+    event.save()
     return HttpResponse('event created: %s <br />%s' % (event, users))
+
+
+def do_delete(request):
+    if not auth(request):
+        return HttpResponseRedirect('/denied')
+    pk = request.POST['event_pk']
+    Event.objects.get(pk=pk).delete()
+    return HttpResponseRedirect('/event')

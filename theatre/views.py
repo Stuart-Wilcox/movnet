@@ -9,7 +9,10 @@ def theatre_list(request):
 
     theatres = Theatre.objects.all()
     template = loader.get_template('theatre/theatre_list.html')
-    context = {'theatres': theatres}
+    context = {
+        'theatres': theatres,
+        'title': 'Theatres',
+    }
     return HttpResponse(template.render(context, request))
 
 
@@ -19,5 +22,8 @@ def theatre_detail(request, index):
 
     theatre = Theatre.objects.get(pk=index)
     template = loader.get_template('theatre/theatre_detail.html')
-    context = {'theatre': theatre}
+    context = {
+        'theatre': theatre,
+        'title': theatre.name,
+    }
     return HttpResponse(template.render(context, request))

@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^$', views.event_list, name='event_list'),
     url(r'^create$', views.create_event, name='create_event'),
     url(r'^do_create', views.do_create, name='do_create'),
+    url(r'^do_delete', views.do_delete, name='do_delete'),
 ]
